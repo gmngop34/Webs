@@ -250,6 +250,14 @@ body {
 }
 
 
+/* This ensures the video area has a consistent shape */
+#videoPlayer {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Standard widescreen shape */
+    background-color: #000; /* Keeps it black while loading */
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
 
 
 
