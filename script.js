@@ -6,7 +6,7 @@ const allMovies = [
         quality: "BluRay",
         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSkUqb-86cLqozgook0Yj9QkHHAiSEqNGoHe3CgZYIrjuH8fOVC0kcKexd&s=10",
         description: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-        videoUrl: "https://www.2embed.cc/embed/tt0816692", // Example embed link
+        videoUrl: "https://www.2embed.cc/embed/tt0816692&server=2", // Example embed link
         date: "2014",
         runtime: "169 min",
         type: "Sci-Fi",
