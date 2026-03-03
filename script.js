@@ -294,26 +294,38 @@ const movie = allMovies.find(m => m.id === movieId);
 document.getElementById('videoPlayer').src = movie.videoUrl;
 
 
-function switchServer(serverNum, event) {
+
+
+function changeServer(serverNum, event) {
     const iframe = document.getElementById('videoPlayer');
     
-    // 1. Get the base URL from your movie data (the one with the tt ID)
-    // We use selectedMovie which you already defined in your player logic
-    if (selectedMovie) {
-        let baseUrl = selectedMovie.videoUrl;
+    // 1. Get the current URL from the iframe
+    let currentUrl = iframe.src;
 
-        // 2. Update the iframe source with the server parameter
-        // Using &server= for 2Embed
-        iframe.src = `${baseUrl}&server=${serverNum}`;
-
-        // 3. UI Update: Highlight the active button
-        document.querySelectorAll('.server-btn').forEach(btn => btn.classList.remove('active'));
-        event.target.classList.add('active');
-        
-        // Optional: Show the loader briefly while the server switches
-        toggleLoader(true);
-        setTimeout(() => toggleLoader(false), 500);
+    if (!currentUrl || currentUrl === "") {
+        // Fallback if iframe hasn't loaded yet
+        currentUrl = selectedMovie.videoUrl;
     }
+
+    // 2. Clean the URL (Remove any existing server parameters)
+    // This splits the URL at '?' or '&' to get the clean IMDb base link
+    let cleanUrl = currentUrl.split(/[?&]server=/)[0];
+
+    // 3. Add the new server parameter
+    // We use '?' if it's a fresh link, or '&' if there are already other parameters
+    const joiner = cleanUrl.includes('?') ? '&' : '?';
+    const newUrl = `${cleanUrl}${joiner}server=${serverNum}`;
+
+    // 4. Update the iframe source
+    iframe.src = newUrl;
+
+    // 5. Update UI (Button Colors)
+    document.querySelectorAll('.srv-btn').forEach(btn => btn.classList.remove('active'));
+    if (event && event.target) {
+        event.target.classList.add('active');
+    }
+
+    console.log("Loading Server " + serverNum + ": " + newUrl);
 }
 
 

@@ -260,45 +260,50 @@ body {
 }
 
 
-.server-container {
+.server-wrapper {
     margin-top: 20px;
+    padding: 15px;
+    background: #111;
+    border-radius: 8px;
     text-align: center;
 }
 
-.server-label {
-    color: #888;
-    font-size: 0.9rem;
-    margin-bottom: 10px;
+.server-status {
+    color: #aaa;
+    font-size: 14px;
+    margin-bottom: 15px;
 }
 
-.server-buttons {
+.server-list {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
     flex-wrap: wrap;
 }
 
-.server-btn {
+.srv-btn {
     background: #222;
-    color: white;
+    color: #fff;
     border: 1px solid #444;
-    padding: 8px 16px;
-    border-radius: 5px;
+    padding: 10px 24px;
     cursor: pointer;
-    transition: 0.3s;
-    font-size: 0.85rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-weight: 600;
 }
 
-.server-btn:hover {
-    border-color: #00ff00; /* Your theme green */
+.srv-btn:hover {
+    border-color: #00ff00; /* Neon Green */
 }
 
-.server-btn.active {
+/* This class is applied when a server is active */
+.srv-btn.active {
     background: #00ff00;
-    color: black;
+    color: #000;
     border-color: #00ff00;
-    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
 }
+
 
 
 

@@ -44,14 +44,15 @@
         allow="autoplay; encrypted-media">
 </iframe>
         </div>
-        <div class="server-container">
-    <p class="server-label">If video doesn't load, try switching servers:</p>
-    <div class="server-buttons">
-        <button class="server-btn active" onclick="switchServer(1, event)">Server 1 (vpls)</button>
-        <button class="server-btn" onclick="switchServer(2, event)">Server 2 (vsrcc)</button>
-        <button class="server-btn" onclick="switchServer(3, event)">Server 3 (vsrc)</button>
+        <div class="server-wrapper">
+    <p class="server-status">If the video is slow or not loading, try another server:</p>
+    <div class="server-list">
+        <button class="srv-btn active" onclick="changeServer(1, event)">Server 1</button>
+        <button class="srv-btn" onclick="changeServer(2, event)">Server 2</button>
+        <button class="srv-btn" onclick="changeServer(3, event)">Server 3</button>
     </div>
 </div>
+
 
         <div class="details-container">
             <h1 id="mTitle"></h1>
