@@ -366,6 +366,70 @@ function changeServer(serverNum, event) {
 
 
 
+const OMDB_API_KEY = '986f8163'; // Put your key inside the quotes
+
+async function executeSearch(query) {
+    if (!query || query.trim().length < 2) return;
+
+    // 1. Ask OMDb for the movie
+    const response = await fetch(`https://www.omdbapi.com/?s=${query}&apikey=${OMDB_API_KEY}`);
+    const data = await response.json();
+
+    const movieGrid = document.getElementById('movieGrid'); // Make sure your HTML has this ID
+    movieGrid.innerHTML = ''; // Clear old results
+
+    if (data.Response === "True") {
+        // 2. Loop through the results and build the cards
+        data.Search.forEach(movie => {
+            // We use movie.imdbID to send the "tt" code to the player
+            movieGrid.innerHTML += `
+                <div class="movie-card" onclick="location.href='player.html?id=${movie.imdbID}'">
+                    <img src="${movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/300x450?text=No+Poster'}" alt="${movie.Title}">
+                    <div class="card-info">
+                        <h3>${movie.Title}</h3>
+                        <p>${movie.Year}</p>
+                    </div>
+                </div>
+            `;
+        });
+    } else {
+        movieGrid.innerHTML = `<p class="error">No movies found for "${query}"</p>`;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+window.onload = function() {
+    // 1. Get the IMDb ID from the URL (?id=tt...)
+    const urlParams = new URLSearchParams(window.location.search);
+    const imdbID = urlParams.get('id');
+
+    if (imdbID) {
+        // 2. Set the 2Embed link using that ID
+        const iframe = document.getElementById('videoPlayer');
+        iframe.src = `https://www.2embed.cc/embed/${imdbID}`;
+        
+        // 3. (Optional) Get the movie title from OMDb to show on the page
+        fetch(`https://www.omdbapi.com/?i=${imdbID}&apikey=${OMDB_API_KEY}`)
+            .then(res => res.json())
+            .then(movie => {
+                document.getElementById('movieTitle').innerText = movie.Title;
+                document.getElementById('movieDesc').innerText = movie.Plot;
+            });
+    }
+};
+
+
+
 
 
 
