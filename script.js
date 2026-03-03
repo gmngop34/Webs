@@ -6,7 +6,7 @@ const allMovies = [
         quality: "BluRay",
         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSkUqb-86cLqozgook0Yj9QkHHAiSEqNGoHe3CgZYIrjuH8fOVC0kcKexd&s=10",
         description: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-        videoUrl: "https://www.2embed.cc/embed/tt0816692?server=vsrcc", // Example embed link
+        videoUrl: "https://www.2embed.cc/embed/tt0816692?server=2", // Example embed link
         date: "2014",
         runtime: "169 min",
         type: "Sci-Fi",
@@ -331,35 +331,34 @@ function changeServer(serverNum, event) {
     // 1. Get the current URL from the iframe
     let currentUrl = iframe.src;
 
-    // 2. Mapping numbers to 2Embed's internal server names
-    // 1 = vpls, 2 = vsrcc, 3 = vsrc
-    const serverMap = {
-        1: 'vpls',
-        2: 'vsrcc',
-        3: 'vsrc'
-    };
-    const serverName = serverMap[serverNum];
-
-    // 3. Logic to replace or add the server parameter
-    let newUrl;
-    if (currentUrl.includes('server=')) {
-        // This replaces "server=anyname" with "server=newname"
-        newUrl = currentUrl.replace(/server=[^&]+/, 'server=' + serverName);
-    } else {
-        // If no server parameter exists, add it
-        const joiner = currentUrl.includes('?') ? '&' : '?';
-        newUrl = currentUrl + joiner + 'server=' + serverName;
+    if (!currentUrl || currentUrl === "") {
+        // Fallback if iframe hasn't loaded yet
+        currentUrl = selectedMovie.videoUrl;
     }
 
-    // 4. Force the iframe to reload with the new URL
+    // 2. Clean the URL (Remove any existing server parameters)
+    // This splits the URL at '?' or '&' to get the clean IMDb base link
+    let cleanUrl = currentUrl.split(/[?&]server=/)[0];
+
+    // 3. Add the new server parameter
+    // We use '?' if it's a fresh link, or '&' if there are already other parameters
+    const joiner = cleanUrl.includes('?') ? '&' : '?';
+    const newUrl = `${cleanUrl}${joiner}server=${serverNum}`;
+
+    // 4. Update the iframe source
     iframe.src = newUrl;
 
-    // 5. Update Button UI
+    // 5. Update UI (Button Colors)
     document.querySelectorAll('.srv-btn').forEach(btn => btn.classList.remove('active'));
-    if (event) event.target.classList.add('active');
+    if (event && event.target) {
+        event.target.classList.add('active');
+    }
 
-    console.log("Switching to: " + newUrl);
+    console.log("Loading Server " + serverNum + ": " + newUrl);
 }
+
+
+
 
 
 
