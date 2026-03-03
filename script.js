@@ -24,7 +24,36 @@ const allMovies = [
         runtime: "176 min",
         type: "Action",
         download: "#"
-    }
+    },
+
+{
+        id: "m3",
+        title: "Avengers:Endgame",
+        category: "featured",
+        quality: "Imax",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSkUqb-86cLqozgook0Yj9QkHHAiSEqNGoHe3CgZYIrjuH8fOVC0kcKexd&s=10",
+        description: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
+        videoUrl: "https://www.2embed.cc/embed/tt0816692?server=vsrcc", // Example embed link
+        date: "2018",
+        runtime: "181 min",
+        type: "Action",
+        download: "#"
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ];
 
 function displayMovies(data, targetId) {
@@ -299,7 +328,11 @@ document.getElementById('videoPlayer').src = movie.videoUrl;
 function changeServer(serverNum, event) {
     const iframe = document.getElementById('videoPlayer');
     
-    // 1. Map your buttons to the EXACT names 2Embed uses
+    // 1. Get the current URL from the iframe
+    let currentUrl = iframe.src;
+
+    // 2. Mapping numbers to 2Embed's internal server names
+    // 1 = vpls, 2 = vsrcc, 3 = vsrc
     const serverMap = {
         1: 'vpls',
         2: 'vsrcc',
@@ -307,23 +340,27 @@ function changeServer(serverNum, event) {
     };
     const serverName = serverMap[serverNum];
 
-    // 2. Get the clean base link from your movie data
-    // This ensures we don't keep adding &server= over and over
-    if (!selectedMovie || !selectedMovie.videoUrl) return;
-    let baseUrl = selectedMovie.videoUrl.split('?')[0].split('&')[0];
+    // 3. Logic to replace or add the server parameter
+    let newUrl;
+    if (currentUrl.includes('server=')) {
+        // This replaces "server=anyname" with "server=newname"
+        newUrl = currentUrl.replace(/server=[^&]+/, 'server=' + serverName);
+    } else {
+        // If no server parameter exists, add it
+        const joiner = currentUrl.includes('?') ? '&' : '?';
+        newUrl = currentUrl + joiner + 'server=' + serverName;
+    }
 
-    // 3. Construct the new URL precisely
-    const newUrl = `${baseUrl}?server=${serverName}`;
-
-    // 4. Update the iframe
+    // 4. Force the iframe to reload with the new URL
     iframe.src = newUrl;
 
-    // 5. Update UI Highlights
+    // 5. Update Button UI
     document.querySelectorAll('.srv-btn').forEach(btn => btn.classList.remove('active'));
     if (event) event.target.classList.add('active');
 
-    console.log("Switching to " + serverName + ": " + newUrl);
+    console.log("Switching to: " + newUrl);
 }
+
 
 
 
