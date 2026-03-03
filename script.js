@@ -6,7 +6,7 @@ const allMovies = [
         quality: "BluRay",
         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSkUqb-86cLqozgook0Yj9QkHHAiSEqNGoHe3CgZYIrjuH8fOVC0kcKexd&s=10",
         description: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-        videoUrl: "https://www.2embed.cc/embed/tt0816692&server=vsrcc", // Example embed link
+        videoUrl: "https://www.2embed.cc/embed/tt0816692?server=vsrcc", // Example embed link
         date: "2014",
         runtime: "169 min",
         type: "Sci-Fi",
@@ -292,6 +292,31 @@ function toggleLoader(show) {
 // Example logic for your player page
 const movie = allMovies.find(m => m.id === movieId);
 document.getElementById('videoPlayer').src = movie.videoUrl;
+
+
+function switchServer(serverNum, event) {
+    const iframe = document.getElementById('videoPlayer');
+    
+    // 1. Get the base URL from your movie data (the one with the tt ID)
+    // We use selectedMovie which you already defined in your player logic
+    if (selectedMovie) {
+        let baseUrl = selectedMovie.videoUrl;
+
+        // 2. Update the iframe source with the server parameter
+        // Using &server= for 2Embed
+        iframe.src = `${baseUrl}&server=${serverNum}`;
+
+        // 3. UI Update: Highlight the active button
+        document.querySelectorAll('.server-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        
+        // Optional: Show the loader briefly while the server switches
+        toggleLoader(true);
+        setTimeout(() => toggleLoader(false), 500);
+    }
+}
+
+
 
 
 
