@@ -299,11 +299,7 @@ document.getElementById('videoPlayer').src = movie.videoUrl;
 function changeServer(serverNum, event) {
     const iframe = document.getElementById('videoPlayer');
     
-    // 1. Get the current URL from the iframe
-    let currentUrl = iframe.src;
-
-    // 2. Mapping numbers to 2Embed's internal server names
-    // 1 = vpls, 2 = vsrcc, 3 = vsrc
+    // 1. Map your buttons to the EXACT names 2Embed uses
     const serverMap = {
         1: 'vpls',
         2: 'vsrcc',
@@ -311,26 +307,24 @@ function changeServer(serverNum, event) {
     };
     const serverName = serverMap[serverNum];
 
-    // 3. Logic to replace or add the server parameter
-    let newUrl;
-    if (currentUrl.includes('server=')) {
-        // This replaces "server=anyname" with "server=newname"
-        newUrl = currentUrl.replace(/server=[^&]+/, 'server=' + serverName);
-    } else {
-        // If no server parameter exists, add it
-        const joiner = currentUrl.includes('?') ? '&' : '?';
-        newUrl = currentUrl + joiner + 'server=' + serverName;
-    }
+    // 2. Get the clean base link from your movie data
+    // This ensures we don't keep adding &server= over and over
+    if (!selectedMovie || !selectedMovie.videoUrl) return;
+    let baseUrl = selectedMovie.videoUrl.split('?')[0].split('&')[0];
 
-    // 4. Force the iframe to reload with the new URL
+    // 3. Construct the new URL precisely
+    const newUrl = `${baseUrl}?server=${serverName}`;
+
+    // 4. Update the iframe
     iframe.src = newUrl;
 
-    // 5. Update Button UI
+    // 5. Update UI Highlights
     document.querySelectorAll('.srv-btn').forEach(btn => btn.classList.remove('active'));
     if (event) event.target.classList.add('active');
 
-    console.log("Switching to: " + newUrl);
+    console.log("Switching to " + serverName + ": " + newUrl);
 }
+
 
 
 
