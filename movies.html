@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse All - FreeMoviesHUB</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-top">
+            <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+            <a href="index.html" class="logo-link"><h1 class="logo">FreeMovies<span class="green">HUB</span></h1></a>
+            <div class="spacer"></div>
+        </div>
+        <div class="search-container">
+    <input type="text" 
+           placeholder="Search for movies..." 
+           id="searchBox" 
+           onkeyup="if(event.key === 'Enter') executeSearch(this.value)">
+</div>
+
+
+    </nav>
+
+    <div id="sidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()">×</a>
+        <a href="index.html">Home</a>
+        <a href="movies.html">Trending</a>
+        <a href="movies.html">Top IMDb</a>
+        <a href="movies.html">New Release</a>
+    </div>
+
+    <main class="container">
+        <h2 class="section-title" style="padding-left: 15px;">All Movies</h2>
+        <div class="movie-grid" id="allMoviesGrid"></div>
+    </main>
+
+    
+    <div id="loader-container" class="loader-hidden">
+    <div class="spinner"></div>
+    <p>Loading Movies...</p>
+</div>
+
+    
+    
+    
+    <script src="script.js"></script>
+    <script>
+        window.onload = () => displayMovies(allMovies, 'allMoviesGrid');
+        function searchFunc() {
+            const query = document.getElementById('searchBox').value.toLowerCase();
+            const filtered = allMovies.filter(m => m.title.toLowerCase().includes(query));
+            displayMovies(filtered, 'allMoviesGrid');
+        }
+    </script>
+</body>
+</html>
+
