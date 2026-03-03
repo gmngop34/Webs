@@ -4,9 +4,9 @@ const allMovies = [
         title: "Interstellar",
         category: "featured",
         quality: "BluRay",
-        image: "https://share.google/Kemq3MNLSBLkdZGgp",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSkUqb-86cLqozgook0Yj9QkHHAiSEqNGoHe3CgZYIrjuH8fOVC0kcKexd&s=10",
         description: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-        videoUrl: "https://www.youtube.com/embed/zSWdZVtXT7E", // Example embed link
+        videoUrl: "https://vidsrc.to/embed/movie/tt0816692", // Example embed link
         date: "2014",
         runtime: "169 min",
         type: "Sci-Fi",
@@ -17,7 +17,7 @@ const allMovies = [
         title: "The Batman",
         category: "trending",
         quality: "WebRip",
-        image: "https://m.media-amazon.com/images/I/8186P0B+tRL._AC_SL1500_.jpg",
+        image: "https://i.pinimg.com/236x/91/ba/4d/91ba4d2068fd1169a98c0914917f90ba.jpg",
         description: "Batman ventures into Gotham City's underworld when a sadistic killer leaves behind cryptic clues.",
         videoUrl: "https://www.youtube.com/embed/mqqft2x_Aa4",
         date: "2022",
@@ -287,6 +287,11 @@ function toggleLoader(show) {
     }
 }
 
+
+
+// Example logic for your player page
+const movie = allMovies.find(m => m.id === movieId);
+document.getElementById('videoPlayer').src = movie.videoUrl;
 
 
 
